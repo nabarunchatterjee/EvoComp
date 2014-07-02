@@ -6,5 +6,8 @@ cp.Cr = 0.5;
 cp.xmin = -100;
 cp.xmax = 100;
 
+p = path;
+path(p,'cec2005');
 de('benchmark_func',cp,1)
+path = p;
 
