@@ -43,7 +43,10 @@ temp = randi(cp.NP,cp.NP,s);
 rand_par = rand(cp.NP,s);
 p_true = rand_par < cp.PAR;
 p_false= rand_par >= cp.PAR;
-HM_trial = h_true .* (HM(temp) + p_true .* (rand(cp.NP,s) * cp.bw) -  p_false .* (rand(cp.NP,s) * cp.bw)) + h_false .* (cp.xmin +  rand(cp.NP,s) * (cp.xmax - cp.xmin)); 
+rand_temp = rand(cp.NP,s);
+temp_true = rand_temp < 0.5;
+temp_false = rand_temp >= 0.5;
+HM_trial = h_true .* (HM(temp) + p_true .* (temp_true .* (rand(cp.NP,s) * cp.bw) -  temp_false .* (rand(cp.NP,s) * cp.bw))) + h_false .* (cp.xmin +  rand(cp.NP,s) * (cp.xmax - cp.xmin)); 
 
 %%%END IMPROVISATION		 
 
@@ -77,7 +80,7 @@ HM_trial = h_true .* (HM(temp) + p_true .* (rand(cp.NP,s) * cp.bw) -  p_false .*
 
 
     %disp('generation='),disp(G),disp('smallest fitness value is'),disp(xb)
-	fprintf(1,'\n g = %g,fv = %d,dims = %g,from = %g,to = %g\n',G,xb,s,l,u);
+%	fprintf(1,'\n g = %g,fv = %d,dims = %g,from = %g,to = %g\n',G,xb,s,l,u);
 	subpop = selected;
 	end
 end

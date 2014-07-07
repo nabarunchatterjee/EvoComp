@@ -59,8 +59,8 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 				
 %%%End Perfunctory		
 		[bestval,xbest] = evaluate(fname,cp,fnum,pop,bestval);
-		fprintf(f,'GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
-%		fprintf(1,'\n GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
+%		fprintf(f,'GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
+		fprintf(1,'\n GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
 		prev_bestval = bestval;
 
 		G = G+1;					
