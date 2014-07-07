@@ -16,26 +16,37 @@ function subpop = hs_for_subpop(fname,cp,fnum,xbest,bestval,subpop,index,fe,s,l,
 		HM = subpop;
 		G = G + 1;	
 %%% IMPROVISATION
-		for i = 1:cp.NP
-			for j = 1:s
-				if(rand(1) < cp.HMCR)
-					temp_i = randi(cp.NP);
-					HM_trial(i,j) = HM(temp_i,j);
-					if(rand(1) < cp.PAR)
-						if(rand(i) < 0.5)
-							HM_trial(i,j) = HM_trial(i,j) + rand(1) * cp.bw;
-						else 					
-							HM_trial(i,j) = HM_trial(1,j) - rand(1) * cp.bw;
-						end
-					end
-				else
-				
-					HM_trial(i,j) = cp.xmin + rand(1)*(cp.xmax - cp.xmin);
-				end
-			end
-		end
+%		for i = 1:cp.NP
+%			for j = 1:s
+%				if(rand(1) < cp.HMCR)
+%					temp_i = randi(cp.NP);
+%					HM_trial(i,j) = HM(temp_i,j);
+%					if(rand(1) < cp.PAR)
+%						if(rand(i) < 0.5)
+%							HM_trial(i,j) = HM_trial(i,j) + rand(1) * cp.bw;
+%						else 					
+%							HM_trial(i,j) = HM_trial(1,j) - rand(1) * cp.bw;
+%						end
+%					end
+%				else
+%				
+%					HM_trial(i,j) = cp.xmin + rand(1)*(cp.xmax - cp.xmin);
+%				end
+%			end
+%		end
 		
 		
+rand_hmcr = rand(cp.NP,s);
+h_true = rand_hmcr < cp.HMCR;
+h_false = rand_hmcr >= cp.HMCR;
+temp = randi(cp.NP,cp.NP,s); 		
+rand_par = rand(cp.NP,s);
+p_true = rand_par < cp.PAR;
+p_false= rand_par >= cp.PAR;
+HM_trial = h_true .* (HM(temp) + p_true .* (rand(cp.NP,s) * cp.bw) -  p_false .* (rand(cp.NP,s) * cp.bw)) + h_false .* (cp.xmin +  rand(cp.NP,s) * (cp.xmax - cp.xmin)); 
+
+%%%END IMPROVISATION		 
+
 
 %%%END IMPROVISATION		 
 
