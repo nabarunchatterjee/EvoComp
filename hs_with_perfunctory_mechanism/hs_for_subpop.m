@@ -39,7 +39,7 @@ function subpop = hs_for_subpop(fname,cp,fnum,xbest,bestval,subpop,index,fe,s,l,
 rand_hmcr = rand(cp.NP,s);
 h_true = rand_hmcr < cp.HMCR;
 h_false = rand_hmcr >= cp.HMCR;
-temp = randi(cp.NP,cp.NP,s); 		
+temp = randi(cp.NP*s,cp.NP,s); 		
 rand_par = rand(cp.NP,s);
 p_true = rand_par < cp.PAR;
 p_false= rand_par >= cp.PAR;
