@@ -42,25 +42,25 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 		end
 %%% Perfunctory Mechanism
 		r = zeros(1,cp.D);
-		for i = 1:cp.NP
-			pr = 0.05 + 0.05 * rand(1);
-			if(rand <= pr)
-				for q = 1:cp.D
-					r(q) = floor(4 * rand(1));
-				end
-				bw = (cp.xmax - cp.xmin) * 0.1;
-				for q = 1:cp.D
-					if(r(q) == 0)
-						pop(i,q) = pop(i,q) + bw * (-1 + rand * 2);
-					end
-				end
-			end
-		end
+%		for i = 1:cp.NP
+%			pr = 0.05 + 0.05 * rand(1);
+%			if(rand(1) <= pr)
+%				for q = 1:cp.D
+%					r(q) = floor(4 * rand(1));
+%				end
+%				bw = (cp.xmax - cp.xmin) * 0.1;
+%				for q = 1:cp.D
+%					if(r(q) == 0)
+%						pop(i,q) = pop(i,q) + bw * (-1 + rand * 2);
+%					end
+%				end
+%			end
+%		end
 				
 %%%End Perfunctory		
-		[bestval,xbest] = evaluate(fname,cp,fnum,pop,bestval);
-%		fprintf(f,'GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
-		fprintf(1,'\n GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
+%		[bestval,xbest] = evaluate(fname,cp,fnum,pop,bestval);
+		fprintf(f,'GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
+%		fprintf(1,'\n GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
 		prev_bestval = bestval;
 
 		G = G+1;					

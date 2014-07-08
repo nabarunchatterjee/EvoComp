@@ -39,7 +39,7 @@ function subpop = hs_for_subpop(fname,cp,fnum,xbest,bestval,subpop,index,fe,s,l,
 rand_hmcr = rand(cp.NP,s);
 h_true = rand_hmcr < cp.HMCR;
 h_false = rand_hmcr >= cp.HMCR;
-temp = randi(cp.NP*s,cp.NP,s); 		
+temp = randi(cp.NP,cp.NP,s) + ones(cp.NP,1) * (0:cp.NP:cp.NP*(s-1)); 		
 rand_par = rand(cp.NP,s);
 p_true = rand_par < cp.PAR;
 p_false= rand_par >= cp.PAR;
@@ -59,29 +59,27 @@ HM_trial = h_true .* (HM(temp) + p_true .* (temp_true .* (rand(cp.NP,s) * cp.bw)
 		gpop_trial(:,index) = HM_trial;
 		pv = feval(fname,gpop,fnum);
 		tv = feval(fname,gpop_trial,fnum);
-		for i = 1:cp.NP
-			if(pv(i)  > tv(i))
-				selected(i,:) = HM_trial(i,:);
-            			se = tv;
-			else 
-				selected(i,:) = HM(i,:);
-            			se = pv;
-			end
-		
-			if(xb > se)
-            			xb = se;
-            		end
-                
-        	end
-	
+%		for i = 1:cp.NP
+%			if(pv(i)  > tv(i))
+%				selected(i,:) = HM_trial(i,:);
+%            			se = tv;
+%			else 
+%				selected(i,:) = HM(i,:);
+%            			se = pv;
+%			end
+%		
+%			if(xb > se)
+%            			xb = se;
+%            		end
+%        	end
+v_true = pv > tv;
+v_false = pv <= tv;
+selected = repmat(v_true,1,s) .* HM_trial + repmat(v_false,1,s) .* HM;
+xb=min([pv tv]);	
 %%% END SELECTION
 	HM = selected;
-	
 
-
-    %disp('generation='),disp(G),disp('smallest fitness value is'),disp(xb)
 %	fprintf(1,'\n g = %g,fv = %d,dims = %g,from = %g,to = %g\n',G,xb,s,l,u);
 	subpop = selected;
 	end
 end
-	

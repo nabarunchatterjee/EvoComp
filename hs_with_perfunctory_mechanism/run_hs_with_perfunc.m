@@ -34,11 +34,11 @@ for func_num = 1:20
    end
 
    for run = 1:5
-	fitness_val = hs_with_perfunc('benchmark_func',cp,func_num,run)
+	fitness_val = hs_with_perfunc('benchmark_func',cp,func_num,run);
         fitness_arr(run) = fitness_val;
    end
    fprintf(fh, 'function = %d,min(val) = %f,mean = %d,standard_deviation = %f,\n\n', func_num,min(fitness_arr),mean(fitness_arr),std(fitness_arr));
-   fclose('all');
 end
 
+fclose('all');
 restoredefaultpath
