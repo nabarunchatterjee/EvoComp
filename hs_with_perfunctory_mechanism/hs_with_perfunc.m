@@ -37,11 +37,12 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 			subpop = pop(:,k);
 			subpop = hs_for_subpop(fname,cp,fnum,xbest,bestval,subpop,k,fe,s,l,u);
 			pop(:,index(l:u)) = subpop;
-			[bestval,xbest] = evaluate(fname,cp,fnum,pop,bestval);
+			[bestval,xbest,ind] = evaluate(fname,cp,fnum,pop,bestval);
 			
 		end
+		bestval
 %%% Perfunctory Mechanism
-		r = zeros(1,cp.D);
+		r = zeros(cp.NP,cp.D);
 %		for i = 1:cp.NP
 %			pr = 0.05 + 0.05 * rand(1);
 %			if(rand(1) <= pr)
@@ -56,9 +57,26 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 %				end
 %			end
 %		end
-				
+pr = 0.5 + 0.5 * rand(cp.NP,1);
+pr_rep = repmat(pr,1,cp.D);
+rand_temp = rand(cp.NP,1);
+rand_temp_rep = repmat(rand_temp,1,cp.D);
+p_true = rand_temp_rep <= pr_rep;
+p_false = rand_temp_rep > pr_rep;
+%size(p_true)
+%size(floor(4*rand(cp.NP,cp.D)))
+r = p_true .*  floor(4 * rand(cp.NP,cp.D)) ;
+r_zero = (r==0);
+bw = ones(cp.NP,cp.D) * (cp.xmax - cp.xmin) * 0.1;
+pop = p_true .* r_zero .* (pop + bw * (-1 + rand * 2)) + p_false .* pop;
+
+perfunc_best = feval(fname,pop(ind,:),fnum);
+if(perfunc_best > bestval)
+	pop(ind,:) = xbest;
+end
+ 				
 %%%End Perfunctory		
-%		[bestval,xbest] = evaluate(fname,cp,fnum,pop,bestval);
+		[bestval,xbest,index] = evaluate(fname,cp,fnum,pop,bestval);
 		fprintf(f,'GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
 %		fprintf(1,'\n GENERATION = %d, FITNESS VALUE = %d\n',G,bestval);
 		prev_bestval = bestval;
@@ -68,7 +86,7 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 	fclose(f);
 end
 
-function [bestval,xbest] = evaluate(fname,cp,fnum,pop,bestval)
+function [bestval,xbest,index] = evaluate(fname,cp,fnum,pop,bestval)
 		xb = feval(fname,pop,fnum);
 		[bestval,index] = min(xb);
 		xbest = pop(index,:);

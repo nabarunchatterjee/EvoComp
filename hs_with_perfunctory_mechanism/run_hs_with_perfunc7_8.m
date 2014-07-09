@@ -17,7 +17,7 @@ restoredefaultpath
 path(path,'../cec2010');
 path(path,'../cec2010/datafiles');
 fh = fopen('results2010.txt','w');
-for func_num = 1:2
+for func_num = 7:8
 
    % set the lower and upper bound for each function
    if (func_num == 1 | func_num == 4 | func_num == 7 | func_num == 8 | func_num == 9 | func_num == 12 | func_num == 13 | func_num == 14 | func_num == 17 | func_num == 18 | func_num == 19 | func_num == 20)
