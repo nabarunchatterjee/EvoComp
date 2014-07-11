@@ -11,7 +11,6 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 	f = fopen(filename,'w');
 	while(G < cp.gen_max)
 		
-
 %%% Subgroup size choosing	
 %		tr1 = 0.6 - 0.5 * (G / cp.gen_max);
 %		tr2 = 0.9 - 0.5 * (G / cp.gen_max);
