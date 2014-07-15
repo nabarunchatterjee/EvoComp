@@ -56,7 +56,7 @@ function bestval = hs_with_perfunc(fname,cp,fnum,run)
 %				end
 %			end
 %		end
-pr = 0.5 + 0.5 * rand(cp.NP,1);
+pr = 0.05 + 0.05 * rand(cp.NP,1);
 pr_rep = repmat(pr,1,cp.D);
 rand_temp = rand(cp.NP,1);
 rand_temp_rep = repmat(rand_temp,1,cp.D);
